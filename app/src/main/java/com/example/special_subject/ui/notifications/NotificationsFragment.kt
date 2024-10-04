@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,9 +14,6 @@ import com.example.special_subject.databinding.FragmentNotificationsBinding
 class NotificationsFragment : Fragment() {
 
     private var _binding: FragmentNotificationsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -26,17 +21,18 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
-        val root: View = binding.root
+        // 使用 View Binding 进行布局膨胀
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        return root
+        return binding.root // 返回绑定的视图
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val changeButton: ImageButton = view.findViewById(R.id.imageButton2)
-        val payButton: ImageButton = view.findViewById(R.id.imageButton3)
-        val logOutButton: ImageButton = view.findViewById(R.id.imageButton4)
+        // 通过绑定访问视图元素
+        val changeButton: ImageButton = binding.imageButton2
+        val payButton: ImageButton = binding.imageButton3
+        val logOutButton: ImageButton = binding.imageButton4
 
         changeButton.setOnClickListener {
             Toast.makeText(requireContext(), "ImageButton 1 点击", Toast.LENGTH_SHORT).show()
@@ -53,6 +49,6 @@ class NotificationsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding = null // 清理绑定，以避免内存泄漏
     }
 }

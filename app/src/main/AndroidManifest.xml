@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -11,8 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Special_Subject">
 
-        <!-- MainActivity 声明 -->
-        <activity android:name=".MainActivity"
+        <!-- 声明 LoginActivity 作为启动 Activity -->
+        <activity android:name=".ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,8 +18,8 @@
             </intent-filter>
         </activity>
 
-        <!-- 声明其他 Activity -->
-        <activity android:name=".ui.LoginActivity"/>
+        <!-- 可选：保留 MainActivity 但不设置为启动 -->
+        <activity android:name=".MainActivity"/>
 
     </application>
 </manifest>
