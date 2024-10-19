@@ -9,7 +9,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.special_subject.databinding.FragmentDashboardBinding
@@ -22,7 +22,8 @@ class DashboardFragment : Fragment() {
     private lateinit var webView: WebView
     private lateinit var inputMessage: EditText
     private lateinit var sendButton: Button
-    private lateinit var messageLayout: LinearLayout
+    private lateinit var outputTextView: TextView
+    private lateinit var scrollView: ScrollView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +37,8 @@ class DashboardFragment : Fragment() {
         webView = binding.webview
         inputMessage = binding.inputMessage
         sendButton = binding.sendButton
-        messageLayout = binding.messageContainer
+        outputTextView = binding.outputTextView
+        scrollView = binding.scrollView2
 
         // 設定 WebView
         setupWebView()
@@ -45,12 +47,11 @@ class DashboardFragment : Fragment() {
         sendButton.setOnClickListener {
             sendMessage()
         }
+
         return root
     }
 
-    /*
-    //直播畫面
-     */
+    // 設定 WebView 來顯示 YouTube 直播
     private fun setupWebView() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
@@ -61,26 +62,21 @@ class DashboardFragment : Fragment() {
         webView.loadUrl(videoUrl)
     }
 
-    /*
-    // 文字輸入框
-     */
+    // 文字輸入框發送訊息
     private fun sendMessage() {
         val message = inputMessage.text.toString().trim()
         if (message.isNotEmpty()) {
-            // 創建新的 TextView 來顯示用戶訊息
-            val newMessageView = TextView(requireContext())
-            newMessageView.text = "You: $message"
-            newMessageView.setPadding(8, 8, 8, 8)
-
-            // 將新訊息添加到對話紀錄
-            messageLayout.addView(newMessageView)
+            // 將新的訊息附加到 TextView
+            val currentText = outputTextView.text.toString()
+            val newText = "$currentText\nYou: $message"
+            outputTextView.text = newText
 
             // 清空輸入框
             inputMessage.text.clear()
 
-            // 滾動到最新消息
-            binding.messageContainer.post {
-                binding.messageContainer.scrollTo(0, messageLayout.height)
+            // 讓 ScrollView 自動滾動到底部
+            scrollView.post {
+                scrollView.fullScroll(View.FOCUS_DOWN)
             }
         }
     }
@@ -90,3 +86,7 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 }
+
+
+
+

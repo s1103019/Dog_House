@@ -35,11 +35,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:id="@+id/message_container"
+        <TextView
+            android:id="@+id/outputTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:text=""
+            android:textSize="16sp" />
     </ScrollView>
 
     <EditText
