@@ -3,18 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/loginFragment"
+    android:background="#80665C">
 
+    <!-- LoginFragment as the new start destination -->
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.special_subject.ui.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.special_subject.ui.notifications.RegisterFragment"
+        android:label="註冊"
+        tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.special_subject.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="Home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.special_subject.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="推薦"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment

@@ -10,7 +10,9 @@
         android:theme="@style/Theme.Special_Subject">
 
         <!-- 声明 LoginActivity 作为启动 Activity -->
-        <activity android:name=".ui.LoginActivity"
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,8 +20,9 @@
             </intent-filter>
         </activity>
 
-        <!-- 可选：保留 MainActivity 但不设置为启动 -->
-        <activity android:name=".MainActivity"/>
+
 
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
