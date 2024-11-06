@@ -10,14 +10,17 @@
         android:theme="@style/Theme.Special_Subject">
 
         <!-- 声明 LoginActivity 作为启动 Activity -->
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+        <activity android:name=".ui.LoginActivity"
             android:exported="true">
+            <!-- 可选: 设置启动Activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.notifications.RegisterActivity">
+            <!-- 不需要设置启动标签 -->
         </activity>
 
 
