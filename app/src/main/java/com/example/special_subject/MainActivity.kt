@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 設置 Toolbar 作為 ActionBar
-        setSupportActionBar(binding.toolbar) // 如果您使用自定義 Toolbar
+//        setSupportActionBar(binding.toolbar) // 如果您使用自定義 Toolbar
 
         val navView: BottomNavigationView = binding.navView
 

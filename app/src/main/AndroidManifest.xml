@@ -22,7 +22,7 @@
         <activity android:name=".ui.notifications.RegisterActivity">
             <!-- 不需要设置启动标签 -->
         </activity>
-
+        <activity android:name=".MainActivity" />
 
 
     </application>
