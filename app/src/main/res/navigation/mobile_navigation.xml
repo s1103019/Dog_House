@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,23 +5,34 @@
     app:startDestination="@id/navigation_home"
     android:background="#80665C">
 
-    <!-- LoginFragment as the new start destination -->
-
+    <!-- HomeFragment with navigation action to DashboardFragment -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.special_subject.ui.home.HomeFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
 
+    <!-- DashboardFragment -->
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.special_subject.ui.dashboard.DashboardFragment"
         android:label="推薦"
         tools:layout="@layout/fragment_dashboard" />
 
+    <!-- NotificationsFragment -->
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.special_subject.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <!-- DashboardFragment as a separate destination to avoid confusion -->
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.special_subject.ui.dashboard.DashboardFragment"
+        android:label="DashboardFragment" />
+
 </navigation>

@@ -7,9 +7,11 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.fragment.findNavController
 import com.example.special_subject.R
 import com.example.special_subject.databinding.FragmentHomeBinding
 
@@ -30,13 +32,16 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // 初始化适配器和设置 RecyclerView
-        adapter = AnimalAdapter(getAnimalData())
+        // 設置 RecyclerView 和適配器
+        adapter = AnimalAdapter(getAnimalData()) { animal ->
+            onAnimalClick(animal)
+        }
+
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = adapter
 
-        // 设置搜索栏的文本监听器，用于实时更新过滤内容
+        // 搜索欄的文本監聽器，用於即時過濾內容
         binding.searchText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 adapter.filter(s.toString())
@@ -49,16 +54,26 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    private fun onAnimalClick(animal: Animal) {
+        if (animal.status == "可愛狗狗") {
+            // 導航到 DashboardFragment
+            findNavController().navigate(R.id.navigation_dashboard)
+        } else {
+            // 顯示提示 "目前尚未有直播"
+            Toast.makeText(requireContext(), "目前尚未有直播", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun getAnimalData(): List<Animal> {
         return listOf(
             Animal(R.drawable.dog, "可愛狗狗"),
             Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "小猫"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "兔子"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "小鸟"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "小猪"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "小羊"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "大象"),
             Animal(R.drawable.ic_dashboard_black_24dp, "未使用")
         )
     }

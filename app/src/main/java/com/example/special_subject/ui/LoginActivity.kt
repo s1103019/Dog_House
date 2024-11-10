@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
     // 创建 Retrofit 实例
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://your.api.endpoint/") // 使用实际的 BASE_URL
+        .baseUrl("https://ced1-2001-b400-e4a6-1567-a7-c05d-2fdb-49a2.ngrok-free.app/api.auth/") // 使用实际的 BASE_URL
         .addConverterFactory(GsonConverterFactory.create()) // 使用 Gson 解析 JSON
         .build()
     // 使用 Retrofit 实例创建 AuthService
@@ -42,32 +42,32 @@ class LoginActivity : AppCompatActivity() {
             autoLoginForTesting()
         }
 
-
-        binding.loginButton.setOnClickListener {
-            // 临时直接跳转至 MainActivity
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
-        }
-
-        // 登录按钮的点击事件
+//        // 測試使用
 //        binding.loginButton.setOnClickListener {
-//            val username = binding.username.text.toString()
-//            val password = binding.password.text.toString()
-//
+//            // 临时直接跳转至 MainActivity
 //            val intent = Intent(this@LoginActivity, MainActivity::class.java)
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 //            startActivity(intent)
-//            finish() // 结束 LoginActivity
-//
-////            if (username.isNotBlank() && password.isNotBlank()) {
-////                // 调用 loginUser 函数进行登录处理
-////                loginUser(username, password)
-////            } else {
-////                Toast.makeText(this, "請填寫帳號和密碼", Toast.LENGTH_SHORT).show()
-////            }
+//            finish()
 //        }
+
+        // 登录按钮的点击事件
+        binding.loginButton.setOnClickListener {
+            val username = binding.username.text.toString()
+            val password = binding.password.text.toString()
+
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish() // 结束 LoginActivity
+
+            if (username.isNotBlank() && password.isNotBlank()) {
+                // 调用 loginUser 函数进行登录处理
+                loginUser(username, password)
+            } else {
+                Toast.makeText(this, "請填寫帳號和密碼", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         // 注册按钮的点击事件，跳转到 RegisterActivity
         binding.registerLink.setOnClickListener {
