@@ -67,7 +67,35 @@ class DashboardFragment : Fragment() {
         return root
     }
 
-    // 直播影像
+    // twitch
+    private fun setupWebView() {
+        val webSettings: WebSettings = webView.settings
+        webSettings.javaScriptEnabled = true
+        webSettings.allowFileAccess = false
+        webSettings.allowContentAccess = false
+
+        // 啟用縮放功能
+        webSettings.builtInZoomControls = true
+        webSettings.displayZoomControls = false // 隱藏縮放按鈕
+
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                return false // 允許 WebView 直接載入 URL
+            }
+        }
+        webView.webChromeClient = WebChromeClient() // 啟用 WebChromeClient 以支援更多 Web 功能
+
+        // Twitch 嵌入直播 URL
+        val twitchUrl = "https://player.twitch.tv/?channel=jim9115&parent=localhost&controls=false"
+        webView.loadUrl(twitchUrl)
+
+        // 禁用 WebView 的用戶互動（僅觀看）
+        webView.isClickable = false
+        webView.isFocusable = false
+        webView.setOnTouchListener { _, _ -> true } // 禁用觸摸事件
+    }
+
+    // youtube直播影像
 //    private fun setupWebView() {
 //        val webSettings: WebSettings = webView.settings
 //        webSettings.javaScriptEnabled = true
@@ -92,64 +120,64 @@ class DashboardFragment : Fragment() {
 //
 //    }
 
-    private fun setupWebView() {
-        val webSettings: WebSettings = webView.settings
-        webSettings.javaScriptEnabled = true
-        webSettings.allowFileAccess = false
-        webSettings.allowContentAccess = false
-
-        // 設置 WebViewClient 來處理 URL
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                return true
-            }
-        }
-
-        // 設置 WebChromeClient 來管理全螢幕模式
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
-                // 進入全螢幕模式
-                (webView.parent as ViewGroup).apply {
-                    removeView(webView)
-                    addView(view)
-                }
-                webView.visibility = View.GONE
-            }
-
-            override fun onHideCustomView() {
-                // 退出全螢幕模式
-                (webView.parent as ViewGroup).apply {
-                    removeViewAt(childCount - 1)
-                    addView(webView)
-                }
-                webView.visibility = View.VISIBLE
-            }
-        }
-
-        val videoId = "nlWfccFlU-w" // YouTube 影片 ID
-        val videoUrl = "https://youtube.com/embed/$videoId"
-
-        // 加載 YouTube 影片並執行 JavaScript 隱藏控制項
-        webView.loadUrl(videoUrl)
-        webView.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView?, url: String?) {
-                // 注入 JavaScript 隱藏控制項和其他元素
-                webView.evaluateJavascript("""
-                var player = document.getElementsByTagName('video')[0];
-                if (player) {
-                    player.controls = false; // 隱藏控制項
-                    player.autoplay = true; // 自動播放
-                }
-                document.querySelectorAll('.ytp-chrome-top, .ytp-title, .ytp-share-button').forEach(el => el.style.display = 'none'); // 隱藏標題和分享按鈕
-            """.trimIndent(), null)
-            }
-        }
-
-        // 禁用 WebView 的用戶互動（僅觀看）
-        webView.isClickable = false
-        webView.isFocusable = false
-        webView.setOnTouchListener { _, _ -> true } // 禁用觸摸事件
-    }
+//    private fun setupWebView() {
+//        val webSettings: WebSettings = webView.settings
+//        webSettings.javaScriptEnabled = true
+//        webSettings.allowFileAccess = false
+//        webSettings.allowContentAccess = false
+//
+//        // 設置 WebViewClient 來處理 URL
+//        webView.webViewClient = object : WebViewClient() {
+//            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+//                return true
+//            }
+//        }
+//
+//        // 設置 WebChromeClient 來管理全螢幕模式
+//        webView.webChromeClient = object : WebChromeClient() {
+//            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
+//                // 進入全螢幕模式
+//                (webView.parent as ViewGroup).apply {
+//                    removeView(webView)
+//                    addView(view)
+//                }
+//                webView.visibility = View.GONE
+//            }
+//
+//            override fun onHideCustomView() {
+//                // 退出全螢幕模式
+//                (webView.parent as ViewGroup).apply {
+//                    removeViewAt(childCount - 1)
+//                    addView(webView)
+//                }
+//                webView.visibility = View.VISIBLE
+//            }
+//        }
+//
+//        val videoId = "nlWfccFlU-w" // YouTube 影片 ID
+//        val videoUrl = "https://youtube.com/embed/$videoId"
+//
+//        // 加載 YouTube 影片並執行 JavaScript 隱藏控制項
+//        webView.loadUrl(videoUrl)
+//        webView.webViewClient = object : WebViewClient() {
+//            override fun onPageFinished(view: WebView?, url: String?) {
+//                // 注入 JavaScript 隱藏控制項和其他元素
+//                webView.evaluateJavascript("""
+//                var player = document.getElementsByTagName('video')[0];
+//                if (player) {
+//                    player.controls = false; // 隱藏控制項
+//                    player.autoplay = true; // 自動播放
+//                }
+//                document.querySelectorAll('.ytp-chrome-top, .ytp-title, .ytp-share-button').forEach(el => el.style.display = 'none'); // 隱藏標題和分享按鈕
+//            """.trimIndent(), null)
+//            }
+//        }
+//
+//        // 禁用 WebView 的用戶互動（僅觀看）
+//        webView.isClickable = false
+//        webView.isFocusable = false
+//        webView.setOnTouchListener { _, _ -> true } // 禁用觸摸事件
+//    }
 
 
 

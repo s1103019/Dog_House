@@ -56,13 +56,15 @@ class HomeFragment : Fragment() {
 
     private fun onAnimalClick(animal: Animal) {
         if (animal.status == "可愛狗狗") {
-            // 導航到 DashboardFragment
-            findNavController().navigate(R.id.navigation_dashboard)
+            // 導航到 DashboardFragment 並設置 popUpTo 保持導航棧的正確性
+            findNavController().navigate(
+                R.id.action_homeFragment_to_dashboardFragment
+            )
         } else {
-            // 顯示提示 "目前尚未有直播"
             Toast.makeText(requireContext(), "目前尚未有直播", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun getAnimalData(): List<Animal> {
         return listOf(
