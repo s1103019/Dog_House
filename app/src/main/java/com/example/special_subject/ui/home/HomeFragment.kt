@@ -68,12 +68,12 @@ class HomeFragment : Fragment() {
         return listOf(
             Animal(R.drawable.dog, "可愛狗狗"),
             Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "小猫"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "兔子"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "小鸟"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "小猪"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "小羊"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "大象"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
+            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
             Animal(R.drawable.ic_dashboard_black_24dp, "未使用")
         )
     }

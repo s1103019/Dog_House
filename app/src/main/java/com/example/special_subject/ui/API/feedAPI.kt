@@ -1,4 +1,4 @@
-package com.example.special_subject.api
+package com.example.special_subject.ui.API
 
 import retrofit2.Call
 import retrofit2.http.Body

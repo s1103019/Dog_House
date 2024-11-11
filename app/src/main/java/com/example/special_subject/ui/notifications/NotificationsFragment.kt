@@ -1,5 +1,6 @@
 package com.example.special_subject.ui.notifications
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.special_subject.R
 import com.example.special_subject.databinding.FragmentNotificationsBinding
+import com.example.special_subject.ui.LoginActivity
 
 class NotificationsFragment : Fragment() {
 
@@ -21,21 +21,20 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // 使用 View Binding 进行布局膨胀
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        return binding.root // 返回绑定的视图
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 通过绑定访问视图元素
         val changeButton: ImageButton = binding.imageButton2
         val payButton: ImageButton = binding.imageButton3
         val logOutButton: ImageButton = binding.imageButton4
 
         changeButton.setOnClickListener {
-            Toast.makeText(requireContext(), "ImageButton 1 点击", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), ChangePasswordActivity::class.java)
+            startActivity(intent)
         }
 
         payButton.setOnClickListener {
@@ -43,12 +42,23 @@ class NotificationsFragment : Fragment() {
         }
 
         logOutButton.setOnClickListener {
-            Toast.makeText(requireContext(), "ImageButton 3 点击", Toast.LENGTH_SHORT).show()
+            // 清除使用者資料（例如使用 SharedPreferences）
+            val sharedPreferences = requireContext().getSharedPreferences("UserPrefs", 0)
+            val editor = sharedPreferences.edit()
+            editor.clear()  // 清除所有登入資訊
+            editor.apply()
+
+            // 跳轉至 LoginActivity 並清除返回棧
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+
+            Toast.makeText(requireContext(), "已成功登出", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // 清理绑定，以避免内存泄漏
+        _binding = null
     }
 }

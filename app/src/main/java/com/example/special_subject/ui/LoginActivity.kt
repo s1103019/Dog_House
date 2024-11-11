@@ -102,11 +102,6 @@ class LoginActivity : AppCompatActivity() {
                         // 若响应成功但没有 user 数据，显示登录失败的提示
                         Toast.makeText(this@LoginActivity, "登入失敗，無法取得用戶資料", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    // 登录失败，显示错误提示
-                    val errorBody = response.errorBody()?.string()
-                    val errorMessage = parseErrorMessage(errorBody)
-                    Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -117,14 +112,5 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    // 解析错误信息
-    private fun parseErrorMessage(errorBody: String?): String {
-        return try {
-            val gson = Gson()
-            val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-            errorResponse.message
-        } catch (e: Exception) {
-            "登入失敗"
-        }
-    }
+
 }
