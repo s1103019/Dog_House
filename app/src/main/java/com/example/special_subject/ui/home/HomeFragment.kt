@@ -71,10 +71,10 @@ class HomeFragment : Fragment() {
 
     private fun getAnimalData(): List<Animal> {
         return listOf(
-            Animal(R.drawable.dog, "可愛狗狗"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
-            Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
+            Animal(R.drawable.dog, "405收容所-狗"),
+            Animal(R.drawable.ccat, "003收容所-貓"),
+            Animal(R.drawable.images, "001收容所-貓"),
+            Animal(R.drawable.tabby, "002收容所-貓"),
             Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
             Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
             Animal(R.drawable.ic_dashboard_black_24dp, "未使用"),
