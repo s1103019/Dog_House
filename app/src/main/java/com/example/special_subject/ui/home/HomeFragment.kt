@@ -1,6 +1,7 @@
 package com.example.special_subject.ui.home
 
 import AnimalAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.navigation.fragment.findNavController
 import com.example.special_subject.R
 import com.example.special_subject.databinding.FragmentHomeBinding
+import com.example.special_subject.ui.dashboard.DashboardFragment
 
 class HomeFragment : Fragment() {
 
@@ -64,6 +66,7 @@ class HomeFragment : Fragment() {
             Toast.makeText(requireContext(), "目前尚未有直播", Toast.LENGTH_SHORT).show()
         }
     }
+
 
 
     private fun getAnimalData(): List<Animal> {
