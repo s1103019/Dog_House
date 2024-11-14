@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val BASE_URL = "https://3327-2001-b400-e4a6-1567-a7-c05d-2fdb-49a2.ngrok-free.app" // 替換為您的伺服器基本 URL
+    private const val BASE_URL = "https://d2c3-2001-b400-e4d3-691f-d979-59fb-d440-c519.ngrok-free.app" // 替換為您的伺服器基本 URL
 
     val api: ApiService by lazy {
         Retrofit.Builder()

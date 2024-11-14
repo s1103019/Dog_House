@@ -32,8 +32,10 @@ class DashboardFragment : Fragment() {
     private lateinit var inputMessage: EditText
     private lateinit var sendButton: Button
     private lateinit var feedButton: Button
+    private lateinit var soundToggleButton: Button // 新增聲音開關按鈕
     private lateinit var outputTextView: TextView
     private lateinit var scrollView: ScrollView
+    private var isMuted = false // 用於記錄音量狀態
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +50,7 @@ class DashboardFragment : Fragment() {
         inputMessage = binding.inputMessage
         sendButton = binding.sendButton
         feedButton = binding.feed
+        soundToggleButton = binding.soundToggleButton // 初始化聲音開關按鈕
         outputTextView = binding.outputTextView
         scrollView = binding.scrollView2
 
@@ -62,6 +65,11 @@ class DashboardFragment : Fragment() {
         // 餵食按鈕點擊事件
         feedButton.setOnClickListener {
             triggerFeedApi()
+        }
+
+        // 聲音開關按鈕點擊事件
+        soundToggleButton.setOnClickListener {
+            toggleSound()
         }
 
         return root
@@ -84,14 +92,22 @@ class DashboardFragment : Fragment() {
         }
         webView.webChromeClient = WebChromeClient() // 啟用 WebChromeClient 以支援更多 Web 功能
 
-        // Twitch 嵌入直播 URL
-        val twitchUrl = "https://player.twitch.tv/?channel=jim9115&parent=localhost&controls=false"
+        // Twitch 嵌入直播 URL，設置為默認不靜音
+        val twitchUrl = "https://player.twitch.tv/?channel=jim9115&parent=localhost&controls=false&muted=false"
         webView.loadUrl(twitchUrl)
 
         // 禁用 WebView 的用戶互動（僅觀看）
         webView.isClickable = false
         webView.isFocusable = false
         webView.setOnTouchListener { _, _ -> true } // 禁用觸摸事件
+    }
+
+    // 開關音量的方法
+    private fun toggleSound() {
+        isMuted = !isMuted
+        val jsCommand = "document.querySelector('video').muted = $isMuted;"
+        webView.evaluateJavascript(jsCommand, null)
+        Toast.makeText(requireContext(), if (isMuted) "聲音已開啟" else "聲音已靜音", Toast.LENGTH_SHORT).show()
     }
 
     private fun sendMessage() {
@@ -137,3 +153,4 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 }
+
