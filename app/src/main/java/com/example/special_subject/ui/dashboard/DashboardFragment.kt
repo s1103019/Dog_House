@@ -18,6 +18,7 @@ import com.example.special_subject.ui.API.FeedRequest
 import com.example.special_subject.ui.API.FeedResponse
 import com.example.special_subject.ui.API.RetrofitInstance
 import com.example.special_subject.databinding.FragmentDashboardBinding
+import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +34,6 @@ class DashboardFragment : Fragment() {
     private lateinit var feedButton: Button
     private lateinit var outputTextView: TextView
     private lateinit var scrollView: ScrollView
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,7 +67,6 @@ class DashboardFragment : Fragment() {
         return root
     }
 
-    // twitch
     private fun setupWebView() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
@@ -95,92 +94,6 @@ class DashboardFragment : Fragment() {
         webView.setOnTouchListener { _, _ -> true } // 禁用觸摸事件
     }
 
-    // youtube直播影像
-//    private fun setupWebView() {
-//        val webSettings: WebSettings = webView.settings
-//        webSettings.javaScriptEnabled = true
-//        webSettings.allowFileAccess = false
-//        webSettings.allowContentAccess = false
-//        webView.webViewClient = object : WebViewClient() {
-//            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-//                return true
-//            }
-//        }
-//
-//        //  YouTube 行動版 URL
-//        val videoId = "nlWfccFlU-w" //  YouTube 影片 ID
-//        val videoUrl = "https://m.youtube.com/embed/nlWfccFlU-w?autoplay=1&modestbranding=1&showinfo=0&controls=0&rel=0" // 或者 "https://youtube.com/embed/$videoId"
-//        webView.loadUrl(videoUrl)
-//
-//        // 禁用 WebView 的用戶互動（僅觀看）
-//        webView.isClickable = false
-//        webView.isFocusable = false
-//        webView.setOnTouchListener { _, _ -> true } // 禁用觸摸事件
-//
-//
-//    }
-
-//    private fun setupWebView() {
-//        val webSettings: WebSettings = webView.settings
-//        webSettings.javaScriptEnabled = true
-//        webSettings.allowFileAccess = false
-//        webSettings.allowContentAccess = false
-//
-//        // 設置 WebViewClient 來處理 URL
-//        webView.webViewClient = object : WebViewClient() {
-//            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-//                return true
-//            }
-//        }
-//
-//        // 設置 WebChromeClient 來管理全螢幕模式
-//        webView.webChromeClient = object : WebChromeClient() {
-//            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
-//                // 進入全螢幕模式
-//                (webView.parent as ViewGroup).apply {
-//                    removeView(webView)
-//                    addView(view)
-//                }
-//                webView.visibility = View.GONE
-//            }
-//
-//            override fun onHideCustomView() {
-//                // 退出全螢幕模式
-//                (webView.parent as ViewGroup).apply {
-//                    removeViewAt(childCount - 1)
-//                    addView(webView)
-//                }
-//                webView.visibility = View.VISIBLE
-//            }
-//        }
-//
-//        val videoId = "nlWfccFlU-w" // YouTube 影片 ID
-//        val videoUrl = "https://youtube.com/embed/$videoId"
-//
-//        // 加載 YouTube 影片並執行 JavaScript 隱藏控制項
-//        webView.loadUrl(videoUrl)
-//        webView.webViewClient = object : WebViewClient() {
-//            override fun onPageFinished(view: WebView?, url: String?) {
-//                // 注入 JavaScript 隱藏控制項和其他元素
-//                webView.evaluateJavascript("""
-//                var player = document.getElementsByTagName('video')[0];
-//                if (player) {
-//                    player.controls = false; // 隱藏控制項
-//                    player.autoplay = true; // 自動播放
-//                }
-//                document.querySelectorAll('.ytp-chrome-top, .ytp-title, .ytp-share-button').forEach(el => el.style.display = 'none'); // 隱藏標題和分享按鈕
-//            """.trimIndent(), null)
-//            }
-//        }
-//
-//        // 禁用 WebView 的用戶互動（僅觀看）
-//        webView.isClickable = false
-//        webView.isFocusable = false
-//        webView.setOnTouchListener { _, _ -> true } // 禁用觸摸事件
-//    }
-
-
-
     private fun sendMessage() {
         val message = inputMessage.text.toString().trim()
         if (message.isNotEmpty()) {
@@ -197,13 +110,18 @@ class DashboardFragment : Fragment() {
     private fun triggerFeedApi() {
         val feedRequest = FeedRequest()
 
+        // 使用 RetrofitInstance 進行 API 請求
         RetrofitInstance.api.feed(feedRequest).enqueue(object : Callback<FeedResponse> {
             override fun onResponse(call: Call<FeedResponse>, response: Response<FeedResponse>) {
                 if (response.isSuccessful) {
+                    // 成功時更新 UI
                     val message = response.body()?.message ?: "Feeding in progress"
                     outputTextView.text = message
                 } else {
-                    outputTextView.text = "餵食請求失敗: ${response.code()}"
+                    // 失敗時解析錯誤內容
+                    val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                    outputTextView.text = "餵食請求失敗: ${response.code()} - $errorBody"
+                    Toast.makeText(requireContext(), "伺服器返回非預期的數據格式。", Toast.LENGTH_SHORT).show()
                 }
             }
 

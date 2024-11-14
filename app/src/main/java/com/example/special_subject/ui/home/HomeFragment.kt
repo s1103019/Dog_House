@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onAnimalClick(animal: Animal) {
-        if (animal.status == "可愛狗狗") {
+        if (animal.status == "405收容所-狗") {
             // 導航到 DashboardFragment 並設置 popUpTo 保持導航棧的正確性
             findNavController().navigate(
                 R.id.action_homeFragment_to_dashboardFragment

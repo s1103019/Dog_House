@@ -38,8 +38,23 @@ class NotificationsFragment : Fragment() {
         }
 
         payButton.setOnClickListener {
-            Toast.makeText(requireContext(), "ImageButton 2 点击", Toast.LENGTH_SHORT).show()
+            // 指定支付页面的 URL
+            val paymentUrl = "https://www.paypal.com/ncp/payment/J26RUG62AHGBC"
+
+            // 创建 Intent 打开浏览器并访问 URL
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = android.net.Uri.parse(paymentUrl)
+            }
+
+            // 检查是否有浏览器可以处理 Intent
+            if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                startActivity(intent)
+            } else {
+                // 如果没有浏览器可以处理，显示错误信息
+                Toast.makeText(requireContext(), "无法打开支付页面", Toast.LENGTH_SHORT).show()
+            }
         }
+
 
         logOutButton.setOnClickListener {
             // 清除使用者資料（例如使用 SharedPreferences）
